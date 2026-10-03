@@ -109,12 +109,13 @@ local function reportStatus(stateStr, playerX, playerY, mapId)
     if io == nil or io.open == nil then return end
     local now = os.time and os.time() or 0
     local content = string.format(
-        "LeaderName = %s\nMapID = %d\nPlayerX = %d\nPlayerY = %d\nEnabled = %s\nState = %s\nTarget = %s\nInFight = %s\nPointAX = %d\nPointAY = %d\nPointBX = %d\nPointBY = %d\nLastUpdated = %d\n",
+        "LeaderName = %s\nMapID = %d\nPlayerX = %d\nPlayerY = %d\nEnabled = %s\nMode = %s\nState = %s\nTarget = %s\nInFight = %s\nPointAX = %d\nPointAY = %d\nPointBX = %d\nPointBY = %d\nLastUpdated = %d\n",
         MapPatrol.Config.LeaderName or "伏地魔1",
         mapId or 0,
         math.floor(playerX or 0),
         math.floor(playerY or 0),
         MapPatrol.Config.Enabled and "true" or "false",
+        MapPatrol.Config.Mode or "AutoAnchor",
         stateStr or "Idle",
         MapPatrol.Config.CurrentTarget or "B",
         (gamestate and gamestate.isInFight) and "true" or "false",
@@ -231,6 +232,7 @@ function MapPatrol.AnchorAtCurrentPosition()
 
     MapPatrol.Config.PointB = chosenB
     MapPatrol.Config.CurrentMapID = mapId
+    MapPatrol.Config.Mode = "AutoAnchor"
     MapPatrol.Config.CurrentTarget = "B"
     MapPatrol.Config.Enabled = true
     runtime.lastMoveTime = 0
@@ -259,16 +261,37 @@ local function checkExternalConfig()
     if ini.AutoAnchorRadius and ini.AutoAnchorRadius > 0 then
         MapPatrol.Config.AutoAnchorRadius = ini.AutoAnchorRadius
     end
+    if ini.Mode and ini.Mode ~= "" then
+        MapPatrol.Config.Mode = ini.Mode
+    end
+    if ini.PointAX and ini.PointAY and ini.PointBX and ini.PointBY then
+        if ini.PointAX > 0 and ini.PointBX > 0 then
+            MapPatrol.Config.PointA = { x = ini.PointAX, y = ini.PointAY }
+            MapPatrol.Config.PointB = { x = ini.PointBX, y = ini.PointBY }
+        end
+    end
 
     -- 仅队长号响应外部指令与巡逻驱动
     if not MapPatrol.IsLeader() then
         return
     end
 
-    -- 处理特殊即时指令 (START / STOP / ANCHOR)
+    -- 处理特殊即时指令 (START / STOP / ANCHOR / CUSTOM / SET_POINTS)
     if ini.Command and ini.Command ~= "" then
         local cmd = ini.Command
-        if cmd == "START" or cmd == "ANCHOR" then
+        if cmd == "CUSTOM" or cmd == "SET_POINTS" then
+            if ini.PointAX and ini.PointAY and ini.PointBX and ini.PointBY and ini.PointAX > 0 and ini.PointBX > 0 then
+                MapPatrol.Start(ini.PointAX, ini.PointAY, ini.PointBX, ini.PointBY)
+            else
+                Warn("[地图巡逻] 自定义坐标指令无效: A点与B点坐标必须均大于0")
+            end
+        elseif cmd == "START" then
+            if MapPatrol.Config.Mode == "Custom" and MapPatrol.Config.PointA.x > 0 and MapPatrol.Config.PointB.x > 0 then
+                MapPatrol.Start(MapPatrol.Config.PointA.x, MapPatrol.Config.PointA.y, MapPatrol.Config.PointB.x, MapPatrol.Config.PointB.y)
+            else
+                MapPatrol.AnchorAtCurrentPosition()
+            end
+        elseif cmd == "ANCHOR" then
             MapPatrol.AnchorAtCurrentPosition()
         elseif cmd == "STOP" then
             MapPatrol.Stop()
@@ -296,7 +319,9 @@ local function checkExternalConfig()
     -- 处理常规开关变更
     if ini.Enabled ~= nil then
         if ini.Enabled == true and not MapPatrol.Config.Enabled then
-            if ini.PointAX and ini.PointAX > 0 and ini.PointBX and ini.PointBX > 0 then
+            if MapPatrol.Config.Mode == "Custom" and MapPatrol.Config.PointA.x > 0 and MapPatrol.Config.PointB.x > 0 then
+                MapPatrol.Start(MapPatrol.Config.PointA.x, MapPatrol.Config.PointA.y, MapPatrol.Config.PointB.x, MapPatrol.Config.PointB.y)
+            elseif ini.PointAX and ini.PointAX > 0 and ini.PointBX and ini.PointBX > 0 then
                 MapPatrol.Start(ini.PointAX, ini.PointAY, ini.PointBX, ini.PointBY)
             else
                 MapPatrol.AnchorAtCurrentPosition()
@@ -313,11 +338,16 @@ end
 function MapPatrol.Start(x1, y1, x2, y2)
     MapPatrol.Config.PointA = { x = x1, y = y1 }
     MapPatrol.Config.PointB = { x = x2, y = y2 }
+    MapPatrol.Config.Mode = "Custom"
     MapPatrol.Config.CurrentTarget = "B"
     MapPatrol.Config.Enabled = true
     runtime.lastMoveTime = 0
     runtime.nextMoveTime = 0
-    Info(string.format("[地图巡逻] 启动巡逻: A(%d, %d) <-> B(%d, %d)", x1, y1, x2, y2))
+    Info(string.format("[地图巡逻] 启动用户自定义坐标巡逻: A(%d, %d) <-> B(%d, %d)", x1, y1, x2, y2))
+    local player = game:MainPlayerObj()
+    if player ~= nil then
+        reportStatus("Patrolling", player.X, player.Y, game:GetMapID())
+    end
 end
 
 function MapPatrol.Stop()
@@ -395,8 +425,13 @@ function MapPatrol.onGameUpdate()
 
     local targetPos = (MapPatrol.Config.CurrentTarget == "A") and MapPatrol.Config.PointA or MapPatrol.Config.PointB
     if targetPos.x == 0 and targetPos.y == 0 then
-        MapPatrol.AnchorAtCurrentPosition()
-        return
+        if MapPatrol.Config.Mode == "Custom" and MapPatrol.Config.PointA.x > 0 and MapPatrol.Config.PointB.x > 0 then
+            MapPatrol.Config.CurrentTarget = "B"
+            targetPos = MapPatrol.Config.PointB
+        else
+            MapPatrol.AnchorAtCurrentPosition()
+            return
+        end
     end
 
     -- 计算与目标点的距离平方
