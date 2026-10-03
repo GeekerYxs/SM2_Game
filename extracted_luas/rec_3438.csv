@@ -1,0 +1,269 @@
+;物件配置文件
+;分号开头表示注释行
+;可以使用[]来定义小节,该小节的内容到下一个[]定义处,作为一个段处理
+;每个配置项为 :
+;		关键字 = 值
+;等于号用于区分关键字与值,如:
+;		nosound = 1
+
+
+;物件配置填写规则举例:
+;[type??]		// 物件类型编号	
+;Name = 房屋	 	// 物件组名称,最大10个汉字
+;Path = house		// 物件组所在的目录的名字
+
+[type00]
+Name 	= 桥梁
+Path 	= bridge
+
+[type01]
+Name	= 花
+Path	= flower
+
+[type02]
+Name	= 草
+Path	= grass
+
+[type03]
+Name 	= 山
+Path	= hill
+
+[type04]
+Name	= 房屋
+Path	= house
+
+[type05]
+Name   = 物品
+Path   = item
+
+[type06]
+Name	= 阶梯与斜坡
+Path	= ladder
+
+[type07]
+Name   = 魔法
+Path   = magic
+
+[type08]
+Name   = 人物
+Path   = npc
+
+[type09]
+Name	= 其他
+Path	= other
+
+[type10]
+Name	= 虫子
+Path	= rug
+
+[type11]
+Name	= 石头
+Path	= stone
+
+[type12]
+Name	= 树
+Path	= tree
+
+[type13]
+Name	= 水
+Path	= water
+
+[type14]
+Name	= 强盗村
+Path	= bandit
+
+[type15]
+Name	= 动态物件
+Path	= goer
+
+[type16]
+Name	= 乌龙村建筑
+Path	= build of crowdragn
+
+[type17]
+Name	= 乌龙村物品
+Path	= goods of crowdragn
+
+[type18]
+Name	= 乌龙村坡度
+Path	= grade of crowdragn
+
+[type19]
+Name	= 沙滩
+Path	= sand beach
+
+[type20]
+Name	= 强盗村室内
+Path	= indoor bandit
+
+[type21]
+Name	= 乌龙村植物
+Path	= plant of crowdragn
+
+[type22]
+Name	= 野外
+Path	= field
+
+[type23]
+Name	= 野外高度
+Path	= field hill
+
+[type24]
+Name	= 沙漠高度
+Path	= desert hill
+
+[type25]
+Name	= 出生地高度
+Path	= cliff
+
+[type26]
+Name	= 梦幻岛
+Path	= dream island
+
+[type27]
+Name	= 乌龙村室内
+Path	= indoor of crowdragn
+
+[type28]
+Name	= 沙漠物件
+Path	= good of caravan
+
+[type29]
+Name	= 森林物件
+Path	= good of forest
+
+[type30]
+Name	= 森林高度
+Path	= hill of forest
+
+[type31]
+Name	= 夕阳草原
+Path	= aftergrow
+
+[type32]
+Name	= 荒芜之地物件
+Path	= good of cobi
+
+[type33]
+Name	= 荒芜之地高度
+Path	= hill of gobi
+
+[type34]
+Name	= 监狱
+Path	= jail
+
+[type35]
+Name	= 路标
+Path	= logo
+
+[type36]
+Name	= 塔
+Path	= tower
+
+[type37]
+Name	= 圣人谷高度
+Path	= hill of saint valley
+
+[type38]
+Name	= 圣人谷物件
+Path	= good of saint valley
+
+[type39]
+Name	= 蚂蚁洞穴
+Path	= cave
+
+[type40]
+Name	= 蚂蚁洞穴物件
+Path	= good of cave
+
+[type41]
+Name	= 古墓
+Path	= tomb
+ 
+[type42]
+Name	= 城墙迷宫
+Path	=wall magic
+
+[type43]
+Name	= 考古遗迹
+Path	=wasteland
+
+[type44]
+Name	= 天地劫
+Path	=catastrophe
+
+[type45]
+Name	= 森林迷宫
+Path	=burrow
+
+[type46]
+Name	= 荒地迷宫
+Path	= maze
+
+[type47]
+Name	= 龙之都
+Path	= big town
+
+[type48]
+Name	= 龙之都室内
+Path	=indoor of the big town
+
+[type49]
+Name	= 龙之都宫殿
+Path	= palace
+
+[type50]
+Name	= 新龙之都
+Path	= new big town
+
+[type51]
+Name	= 海
+Path	= sea
+
+[type52]
+Name	= 龙之都宫殿室内
+Path	= indoor of the palace
+
+[type53]
+Name	= 野外雪山
+Path	= hill of snowmountain
+
+[type54]
+Name	= 野外火山
+Path	=volcano
+
+[type55]
+Name	=南天门
+Path	=south sky door
+
+[type56]
+Name	=菜鸟训练营
+Path	=fresh Training
+
+[type57]
+Name	=镜花源
+Path	=jinghua yuan
+
+[type58]
+Name	=雪山高低差
+Path	=hill of snow tire
+
+[type59]
+Name	=雪山物件
+Path	=good of snow tire
+
+[type60]
+Name	=暗黑塔
+Path	=tower dark
+
+[type61]
+Name	=镇神塔
+Path	=tower zs
+
+[type62]
+Name	=冰封监狱
+Path	=ice jail
+
+[type63]
+Name	=冰封古墓
+Path	=ice tomb

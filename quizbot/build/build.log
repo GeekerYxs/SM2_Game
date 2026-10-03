@@ -1,0 +1,62 @@
+g++.exe (i686-win32-dwarf-rev1, Built by MinGW-Builds project) 16.2.0
+[2/4] generating codec_tables.h (static tables for tests)
+written D:\Codes\T_WB\smsm2-game\quizbot\build\codec_tables.h
+[3/4] compiling...
+  -> build/protocol_test.exe
+D:/Codes/T_WB/smsm2-game/quizbot/dll/quizbot_hook.cpp: In function 'BOOL ui_child_cb(HWND, LPARAM)':
+D:/Codes/T_WB/smsm2-game/quizbot/dll/quizbot_hook.cpp:162:10: warning: unused variable 'top' [-Wunused-variable]
+  162 |     HWND top = (HWND)lp;
+      |          ^~~
+  -> build/quizbot_hook.dll
+D:/Codes/T_WB/smsm2-game/quizbot/injector/injector.cpp: In function 'bool inject_one(DWORD, const std::wstring&)':
+D:/Codes/T_WB/smsm2-game/quizbot/injector/injector.cpp:76:16: warning: cast between incompatible function types from 'FARPROC' {aka 'int (__attribute__((stdcall)) *)()'} to 'LPTHREAD_START_ROUTINE' {aka 'long unsigned int (__attribute__((stdcall)) *)(void*)'} [-Wcast-function-type]
+   76 |     auto LLA = (LPTHREAD_START_ROUTINE)GetProcAddress(k32, "LoadLibraryW");
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:/Codes/T_WB/smsm2-game/quizbot/injector/injector.cpp: In function 'bool unload_one(DWORD)':
+D:/Codes/T_WB/smsm2-game/quizbot/injector/injector.cpp:105:16: warning: cast between incompatible function types from 'FARPROC' {aka 'int (__attribute__((stdcall)) *)()'} to 'LPTHREAD_START_ROUTINE' {aka 'long unsigned int (__attribute__((stdcall)) *)(void*)'} [-Wcast-function-type]
+  105 |     auto GMW = (LPTHREAD_START_ROUTINE)GetProcAddress(k32, "GetModuleHandleW");
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:/Codes/T_WB/smsm2-game/quizbot/injector/injector.cpp:113:15: warning: cast between incompatible function types from 'FARPROC' {aka 'int (__attribute__((stdcall)) *)()'} to 'LPTHREAD_START_ROUTINE' {aka 'long unsigned int (__attribute__((stdcall)) *)(void*)'} [-Wcast-function-type]
+  113 |     auto FL = (LPTHREAD_START_ROUTINE)GetProcAddress(k32, "FreeLibrary");
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  -> build/injector.exe
+[4/4] running protocol replay tests
+  PASS  tables bijection
+[1] whole-block question decode
+  PASS  one frame in 96B packet
+  PASS  op == 0x46F4
+  PASS  question parse_ok
+  PASS  qno == 16
+  PASS  field_a == 88
+  PASS  stem len == 41
+  PASS  stem GBK bytes exact
+  PASS  4 options
+  PASS  no error
+[2] 1-byte-chunk streaming
+  PASS  stream reassembles to 1 frame
+  PASS  streamed question qno == 16
+[3] two-frames-in-one-segment
+  PASS  58B segment -> 2 frames
+  PASS  frame0 op 0x46FF
+  PASS  frame1 op 0x40E5
+  PASS  sysprompt parse
+  PASS  reward text GBK bytes exact (金币奖励)
+  PASS  0x40E5 payload bytes exact
+[4] '测试通过' sysprompt
+  PASS  23B -> 0x46FF
+  PASS  text == 测试通过！
+[5] build_answer byte-exact
+  PASS  qno13 opt0 == captured wire
+  PASS  qno16 opt2 == captured wire
+[6] answer frame decode roundtrip
+  PASS  13B -> 0x1F04
+  PASS  body 9B
+  PASS  payload [5][16][2]
+[7] heartbeat frame
+  PASS  28B -> 0xF005
+[8] split-across-feeds
+  PASS  half packet yields no frame
+  PASS  continuation completes frame
+
+ALL TESTS PASSED (0 failures)
+BUILD OK

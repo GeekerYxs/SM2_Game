@@ -1,0 +1,15 @@
+
+在升级控制文件中添加以下内容, 并在[addfile]部分删除本文件
+
+[delfile]
+WAATClient.exe
+plgDDraw.dll
+plgFont.dll
+plgGFX.dll
+plgGraphFile.dll
+plgInput.dll
+plg3dSound.dll
+plgMediaPlay.dll
+dbghelp.dll
+[movefile]
+config.ini=v2.0\

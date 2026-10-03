@@ -1,0 +1,34 @@
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary compiler objects
+*.o
+*.obj
+*.tmp
+
+# Toolchain binaries (large compiler binaries)
+toolchain/x/
+toolchain/*.7z
+toolchain/*.zip
+**/toolchain/x/
+**/toolchain/*.7z
+**/toolchain/*.zip
+
+# Node dependencies
+node_modules/
+**/node_modules/
+
+# Temporary screenshot crops in build
+quizbot/build/shots/
+quizbot/logs/shots/
+build/shots/
+logs/shots/
+
+# OS generated
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store

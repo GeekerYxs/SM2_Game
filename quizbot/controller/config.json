@@ -1,0 +1,14 @@
+{
+  "dry_run": false,
+  "answer_delay_ms": 500,
+  "fallback": "eliminate",
+  "llm": {
+    "enabled": true,
+    "endpoint": "http://127.0.0.1:8765/v1/chat/completions",
+    "api_key": "sidecar",
+    "model": "glm-5v-turbo",
+    "timeout_s": 8
+  },
+  "bank_path": "data/bank.json",
+  "llm_cache_s": 3600
+}

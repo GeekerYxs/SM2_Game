@@ -1,0 +1,36 @@
+2026-10-03 13:51:05.567 [INIT] dll loaded, pid=31992 (pure network mode)
+2026-10-03 13:51:05.567 [INIT] codec loaded OK
+2026-10-03 13:51:05.567 [INIT] iat hooks: recv=1 send=1 WSASend=1 connect=1 closesocket=1
+2026-10-03 13:51:05.872 [PIPE] controller connected
+2026-10-03 13:51:34.853 [SETTLE] exp=1 gold=199366 len=393
+2026-10-03 13:52:04.878 [SETTLE] exp=1 gold=199366 len=393
+2026-10-03 13:52:07.058 [SYS] #ff0000#您已进入野外区域，可能遭遇玩家间的自由对战，请注意安全！#ffffff#
+2026-10-03 13:56:21.276 [SYS] #FFF692#交纳传送费用#00CCFF#1810#FFF692#金币！
+2026-10-03 13:56:26.240 [SYS] #FFF692#交纳传送费用#00CCFF#1370#FFF692#金币！
+2026-10-03 14:02:53.081 [SYS] 内城只允许单人缴费进入
+2026-10-03 14:03:53.029 [SYS] #ff0000#您已进入野外区域，可能遭遇玩家间的自由对战，请注意安全！#ffffff#
+2026-10-03 14:04:50.927 [SETTLE] exp=2 gold=199366 len=393
+2026-10-03 14:05:29.227 [SETTLE] exp=2 gold=199366 len=393
+2026-10-03 14:06:39.784 [SETTLE] exp=2 gold=199366 len=393
+2026-10-03 14:06:57.728 [QUESTION] {"type":"question","sock":2512,"qno":13,"field_a":89,"stem":"光学物理上把能够自身发光的物体叫做？","options":["1、正能量","2、可能叫这个吧","3、阳光普照","4、光源"]}
+2026-10-03 14:07:15.080 [SETTLE] exp=2 gold=199366 len=393
+2026-10-03 14:07:28.882 [SYS] 测试通过！
+2026-10-03 14:07:28.982 [SYS] 获得了#00FF00#100#FFF692#金币
+2026-10-03 14:07:34.181 [PIPE] controller disconnected
+2026-10-03 14:08:00.159 [SETTLE] exp=1 gold=199366 len=393
+2026-10-03 14:08:12.828 [PIPE] controller connected
+2026-10-03 14:08:26.206 [SETTLE] exp=1 gold=199366 len=393
+2026-10-03 14:08:39.240 [PIPE] controller disconnected
+2026-10-03 14:08:56.614 [SETTLE] exp=2 gold=199366 len=393
+2026-10-03 14:09:30.599 [PIPE] controller connected
+2026-10-03 14:10:53.894 [SETTLE] exp=1 gold=199366 len=393
+2026-10-03 14:11:22.276 [SETTLE] exp=1 gold=199366 len=393
+2026-10-03 14:12:02.831 [SETTLE] exp=1 gold=199366 len=393
+2026-10-03 14:12:26.612 [NET-E] sock=2704 r=-1 err=10058
+2026-10-03 14:12:26.660 [NET-E] sock=2512 r=-1 err=10058
+2026-10-03 14:12:26.660 [CLOSE] main sock 2512 closed
+2026-10-03 14:12:27.921 [CLOSE] main sock 4294967295 closed
+2026-10-03 14:12:28.150 [CLOSE] main sock 4294967295 closed
+2026-10-03 14:12:28.568 [CLOSE] main sock 4294967295 closed
+2026-10-03 14:12:28.569 [CLOSE] main sock 4294967295 closed
+2026-10-03 14:12:28.631 [INIT] dll unloaded

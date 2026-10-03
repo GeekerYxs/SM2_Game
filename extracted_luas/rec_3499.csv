@@ -1,0 +1,72 @@
+//客户端常量表, 注意名称不要和服务器TSGameConfigs常量重复
+//常量名称,常量字符串
+//战斗中使用物品CD时长,毫秒
+fight_useitem_cdtime,30000
+//物理被击默认魔法效果编号,
+phy_beattack_magicimgid,37
+//致命被击默认魔法效果编号,
+deadly_beattack_magicimgid,50
+//战斗汉化默认显示时长ms,
+fight_yell_default_time,3000
+//战斗倒计时开始显示的时间阈值秒,
+fight_timeout_cd_threshold,1800
+//进入战斗特效编号,
+SymbolFighting,66
+//进入观战,
+SymbolEnterWatchFight,119
+//吟唱效果,
+SymbolIntonate,67
+// 转生+1标志,
+SymbolSoulshift,68
+SymbolSoulshift2,87
+SymbolSoulshift3,99
+//武器装备6部件-全部强化+7+8+9 光圈,
+SymbolEnhance789,69
+//武器装备6部件-全部强化+10 光圈,
+SymbolEnhance10,70
+//武器装备6部件-全部强化+11 光圈,
+SymbolEnhance11,71
+//武器装备6部件-全部强化+12 光圈,
+SymbolEnhance12,72
+//武器装备6部件-全部强化+13、+14、+15 光圈,
+SymbolEnhance13,73
+//武器装备6部件-全部强化+14 身上特效,
+SymbolEnhance14,107
+//武器装备6部件-全部强化+15 身上特效,
+SymbolEnhance15,108
+//暂用作修炼系统的护盾效果,
+SymbolShieldHp,79
+//骷髅头光圈,
+SymbolSkullHalo,80
+//暂用作修炼系统的护盾效果,
+SymbolShieldHpBlue,81
+SymbolShieldHpYellow,82
+SymbolShieldHpOrange,83
+//"资源争夺战场玩家身上效果, 钥匙",
+SymbolResourceBattleKey,90
+//爬塔开放回溯的最大节点编号
+ct_recallunlock_maxmode,0
+//爬塔回溯按解锁次数消耗时光沙漏数量, 仅普通模式
+ct_recallunlock_costitemcount1,1
+ct_recallunlock_costitemcount2,2
+ct_recallunlock_costitemcount3,3
+//爬塔重塑战场规则消耗因果调律丝数量
+ct_rebuild_node1_costitemcount,1
+ct_rebuild_node2_costitemcount,2
+ct_rebuild_node3_costitemcount,3
+// 显示任务数量的最小要求
+ui_task_showcount_minreq, 30
+ui_max_task, 50
+//残影(拖尾影像)相关参数, 详见 LibGame\PlayerObj.h 中的 TAfterImageConfig
+//残影开关: 0 关闭, 1 开启(作为新建角色对象的默认开关)
+afterimage_enable,0
+//残影个数: 1 - 16
+afterimage_max,6
+//每个残影相对前一个的滞后时间(毫秒), 越大拖尾越长
+afterimage_lag_ms,45
+//残影混合值: 1 - 127, 越大越不透明
+afterimage_alpha,110
+//拖尾完全显示所需的最小滞后距离(像素), 用于静止时淡出
+afterimage_movedist,10
+//单次刷新位移超过该值(像素)认为发生瞬移, 直接重置残影
+afterimage_resetdist,128

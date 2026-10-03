@@ -1,0 +1,27 @@
+2026-10-01 17:32:40.864 [INIT] dll loaded, pid=11864
+2026-10-01 17:32:40.864 [INIT] codec loaded OK
+2026-10-01 17:32:40.864 [INIT] iat hooks: recv=1 send=1 WSASend=1 connect=1 closesocket=1
+2026-10-01 17:32:59.184 [PIPE] controller connected
+2026-10-01 17:33:08.592 [PIPE] controller disconnected
+2026-10-01 17:36:02.419 [PIPE] controller connected
+2026-10-01 17:47:31.320 [SYS] 神圣而伟大的#FF8CF8#朝简#FFF692#上线了，大家快来膜拜哟！！！
+2026-10-01 17:54:01.345 [PIPE] controller disconnected
+2026-10-01 18:00:01.419 [PIPE] controller connected
+2026-10-01 18:01:56.922 [SYS] #FFF692#恭喜#FF8CF8#睡神本神#FFF692#在#00C8F8#国庆福袋#FFF692#中获得了#64FF7D#传说骑士的佩剑
+2026-10-01 18:01:59.130 [SYS] #FFF692#恭喜#FF8CF8#睡神本神#FFF692#在#00C8F8#国庆福袋#FFF692#中获得了#64FF7D#古老的袖里剑
+2026-10-01 18:02:19.251 [SYS] #FFF692#恭喜#FF8CF8#睡神本神#FFF692#在#00C8F8#国庆福袋#FFF692#中获得了#64FF7D#宠物印记
+2026-10-01 18:02:31.738 [SYS] #FFF692#恭喜#FF8CF8#睡神本神#FFF692#在#00C8F8#国庆福袋#FFF692#中获得了#64FF7D#魔法命运骰子
+2026-10-01 18:10:24.698 [PIPE] controller disconnected
+2026-10-01 18:10:33.082 [PIPE] controller connected
+2026-10-01 18:11:12.066 [SYS] 测试通过！
+2026-10-01 18:11:12.172 [SYS] 获得了#00FF00#100#FFF692#金币
+2026-10-01 18:11:12.172 [CURRENCY] a=199367 b=989202
+2026-10-01 18:11:29.420 [QUESTION] {"type":"question","sock":2792,"qno":19,"field_a":101,"stem":"我国自己研制的火箭，已经多次成功的把什么送上太空？","options":["1、哈士奇","2、嫦娥","3、人造卫星","4、另一个太阳"]}
+2026-10-01 18:11:32.598 [SEND-ANSWER] qno=19 opt=2 ret=13 sock=2792
+2026-10-01 18:11:32.647 [SYS] 测试通过！
+2026-10-01 18:11:32.738 [SYS] 获得了#00FF00#100#FFF692#金币
+2026-10-01 18:11:32.738 [CURRENCY] a=199367 b=989302
+2026-10-01 18:14:29.627 [CLOSE] main sock 2792 closed
+2026-10-01 18:14:32.156 [CLOSE] main sock 2792 closed
+2026-10-01 18:15:07.252 [CONNECT] main sock 1984 -> 8484
+2026-10-01 18:15:27.010 [INIT] dll unloaded

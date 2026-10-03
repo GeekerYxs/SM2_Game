@@ -1,0 +1,13 @@
+//数据定位标记(使用双#号包围下划线分割标记与数据编号，格式如Map_1),十六进制颜色值
+Map,00c2ff
+Position,62ff7b
+Monster,ff2829
+Qty,ff2829
+NPC,ffff00
+Item,62ff7b
+ItemType,ff2829
+EquipType,ff2829
+Prop,ff2829
+PetType,ff2829
+QR,ff2829
+Aptitude,ff2829

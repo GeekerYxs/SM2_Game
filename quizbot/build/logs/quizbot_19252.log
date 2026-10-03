@@ -1,0 +1,9 @@
+2026-10-02 23:44:54.695 [INIT] dll loaded, pid=19252
+2026-10-02 23:44:54.695 [INIT] codec loaded OK
+2026-10-02 23:44:54.695 [INIT] iat hooks: recv=1 send=1 WSASend=1 connect=1 closesocket=1
+2026-10-02 23:44:55.335 [PIPE] controller connected
+2026-10-02 23:54:46.831 [CLOSE] main sock 4294967295 closed
+2026-10-02 23:54:46.922 [CLOSE] main sock 4294967295 closed
+2026-10-02 23:54:47.345 [CLOSE] main sock 4294967295 closed
+2026-10-02 23:54:47.345 [CLOSE] main sock 4294967295 closed
+2026-10-02 23:54:47.373 [INIT] dll unloaded

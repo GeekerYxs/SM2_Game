@@ -1,0 +1,14 @@
+2026-10-01 17:21:24.201 [INIT] dll loaded, pid=17876
+2026-10-01 17:21:24.201 [INIT] codec loaded OK
+2026-10-01 17:21:24.201 [INIT] iat hooks: recv=1 send=1 WSASend=1 connect=1 closesocket=1
+2026-10-01 17:21:37.344 [PIPE] controller connected
+2026-10-01 17:21:37.344 [PIPE] controller disconnected
+2026-10-01 17:22:43.318 [PIPE] controller connected
+2026-10-01 17:23:42.251 [PIPE] controller disconnected
+2026-10-01 17:23:42.251 [PIPE] write fail err=233 — controller gone?
+2026-10-01 17:24:25.723 [PIPE] controller connected
+2026-10-01 17:24:39.269 [PIPE] controller disconnected
+2026-10-01 17:24:39.269 [PIPE] write fail err=232 — controller gone?
+2026-10-01 17:27:58.730 [PIPE] controller connected
+2026-10-01 17:28:00.731 [PIPE] controller disconnected
+2026-10-01 17:30:09.040 [INIT] dll unloaded
