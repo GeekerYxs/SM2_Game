@@ -1,3 +1,6 @@
 @echo off
-title 就地重新定点
+chcp 65001 >nul
+title 灏卞湴閲嶆柊瀹氱偣
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0TogglePatrol.ps1" -Action ANCHOR
+echo.
+pause

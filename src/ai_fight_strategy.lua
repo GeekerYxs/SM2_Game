@@ -1116,287 +1116,84 @@ function AI.DecideAction(fighter, isPet)
         local deadTargetPos = state.dead_player_pos
         local deadTargetName = state.dead_player_name
 
-        -- 动态扫描场上是否还有存活的医仙具备复活能力 (扫描 15..19 存活玩家)
-        local hasLivingDoctor = false
-        for checkDocPos = 15, 19 do
-            local docFighter = game:GetFighter(checkDocPos)
-            if docFighter ~= nil and docFighter.IsDead == 0 and docFighter.HP > 0 then
-                if checkDocPos == myPos then
-                    if game:HasMagic(306, 1) then
-                        hasLivingDoctor = true
-                        break
-                    end
-                else
-                    -- 其他队友：只要不是纯猎人主力(拥有扫射)，即视作可能拥有医仙救命能力
-                    hasLivingDoctor = true
-                    break
-                end
+        -- 1. 出战宠物: 绝对停火待命，任何宠物严禁出手！
+        if isPet then
+            if AI.Config.DebugLog then
+                Info(string.format("[全员绝对停火] 队友玩家(%s,位号:%d)阵亡，宠物(位号:%d)坚决停火待命，任何人不得出手!",
+                    deadTargetName, deadTargetPos, myPos))
+                Info(string.format("[BATTLE_EVENT][ACTION] role=Pet, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=队友阵亡全员绝对停火",
+                    myPos, deadTargetPos))
+            end
+            return true
+        end
+
+        -- 2. 玩家主角:
+        local reviveSpellId = 306
+        local has306 = false
+        local reviveLv = 1
+        for lv = 20, 1, -1 do
+            if game:HasMagic(reviveSpellId, lv) then
+                has306 = true
+                reviveLv = lv
+                break
             end
         end
 
-        -- 1. 出战宠物: 坚决停火待命，杜绝全屏火雨秒怪提前结算
-        if isPet then
-            if hasLivingDoctor then
+        if has306 then
+            -- 施救医仙分支:
+            local mySp = state.my_sp or 0
+            if mySp >= 1 and not game:IsMagicInCD(reviveSpellId) and game:IsSatisfyMagicConsume(reviveSpellId, reviveLv) then
                 if AI.Config.DebugLog then
-                    Info(string.format("[紧急停火协议] 队友玩家(位号:%d, 角色:%s)阵亡，宠物(位号:%d)坚决停火待命，保留怪物等待医仙复活!",
-                        deadTargetPos, deadTargetName, myPos))
-                    Info(string.format("[BATTLE_EVENT][ACTION] role=Pet, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=队友阵亡全员停火待命等待医仙复活",
+                    Info(string.format("[绝对复活启动] 队友玩家(%s,位号:%d)阵亡，医仙(位号:%d, SP:%d)瞬间施放【306 复活术(Lv%d)】抢救起死回生!",
+                        deadTargetName, deadTargetPos, myPos, mySp, reviveLv))
+                    Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Cast, type=Magic, id=306, name=复活术, lv=%d, target=%d, reason=紧急复活阵亡队友起死回生",
+                        myPos, reviveLv, deadTargetPos))
+                end
+                game:CastMagicToFighter(deadTargetPos, reviveSpellId, reviveLv)
+                return true
+            else
+                -- SP 尚不足 1 点 (蓄力读秒中) 或复活术冷却中: 严格待命蓄力等待满 SP，绝不进行其他操作！
+                if AI.Config.DebugLog then
+                    Info(string.format("[绝对复活待命] 队友玩家(%s,位号:%d)阵亡，医仙(位号:%d)等待SP/冷却满额复活(SP:%d)!",
+                        deadTargetName, deadTargetPos, myPos, mySp))
+                    Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=等待SP满1复活阵亡队友",
                         myPos, deadTargetPos))
                 end
                 return true
             end
         else
-            -- 2. 玩家主角:
-            local reviveSpellId = 306
-            local has306 = false
-            local reviveLv = 1
-            for lv = 20, 1, -1 do
-                if game:HasMagic(reviveSpellId, lv) then
-                    has306 = true
-                    reviveLv = lv
-                    break
-                end
+            -- 猎人大号分支 (伏地魔1/2/3 等无复活技能的主力):
+            -- 最高铁律: 任何人都不得出手，绝对待命停火，保留战局等待医仙复活！
+            if AI.Config.DebugLog then
+                Info(string.format("[全员绝对停火] 队友玩家(%s,位号:%d)阵亡，主力大号(位号:%d)坚决停火待命，任何人不得出手!",
+                    deadTargetName, deadTargetPos, myPos))
+                Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=队友阵亡全员绝对停火",
+                    myPos, deadTargetPos))
             end
-
-            if has306 then
-                -- 施救医仙分支:
-                local mySp = state.my_sp or 0
-                if mySp >= 1 and not game:IsMagicInCD(reviveSpellId) and game:IsSatisfyMagicConsume(reviveSpellId, reviveLv) then
-                    if AI.Config.DebugLog then
-                        Info(string.format("[紧急停火抢救] 队友玩家(位号:%d, 角色:%s)阵亡，医仙(位号:%d, SP:%d)瞬间施放【306 复活术(Lv%d)】抢救起死回生!",
-                            deadTargetPos, deadTargetName, myPos, mySp, reviveLv))
-                        Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Cast, type=Magic, id=306, name=复活术, lv=%d, target=%d, reason=紧急复活阵亡队友起死回生",
-                            myPos, reviveLv, deadTargetPos))
-                    end
-                    game:CastMagicToFighter(deadTargetPos, reviveSpellId, reviveLv)
-                    return true
-                elseif mySp < 1 then
-                    -- SP 尚不足 1 点 (蓄力读秒中，每 3.9 秒 1 点 SP): 严格待命蓄力，杜绝普攻与无效刷血！
-                    if AI.Config.DebugLog then
-                        Info(string.format("[紧急停火抢救] 队友玩家(位号:%d, 角色:%s)阵亡，医仙(位号:%d)当前 SP=0，坚决待命蓄力等待满SP复活!",
-                            deadTargetPos, deadTargetName, myPos))
-                        Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=等待SP满1复活阵亡队友",
-                            myPos, deadTargetPos))
-                    end
-                    return true
-                elseif game:IsMagicInCD(reviveSpellId) then
-                    -- 复活术在 CD 中: 待命等待冷却
-                    if AI.Config.DebugLog then
-                        Info(string.format("[紧急停火抢救] 复活术冷却中，医仙(位号:%d)战术待命等待CD复活!", myPos))
-                        Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=复活术CD战术待命",
-                            myPos, deadTargetPos))
-                    end
-                    return true
-                end
-            else
-                -- 猎人大号分支 (伏地魔1/2/3):
-                if hasLivingDoctor then
-                    if AI.Config.DebugLog then
-                        Info(string.format("[紧急停火协议] 队友玩家(位号:%d, 角色:%s)阵亡，大号猎人(位号:%d)严禁攻击，全面停火待命，保留怪物等待医仙复活!",
-                            deadTargetPos, deadTargetName, myPos))
-                        Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=队友阵亡猎人大号全面停火待命等待医仙复活",
-                            myPos, deadTargetPos))
-                    end
-                    return true
-                else
-                    -- 极端灾难熔断: 两个医仙全部阵亡，无人能复活，猎人被迫全力输出歼敌自保
-                    if AI.Config.DebugLog then
-                        Warn(string.format("[AI战局告急] 医仙小号全员阵亡无法施救，大号猎人(位号:%d)全力歼灭残敌脱离战斗!", myPos))
-                    end
-                end
-            end
-        end
-    end
-
-    -- ------------------------------------------------------------------------
-    -- 核心策略定制: 3大带2小 专职保姆模式
-    -- 2小账号 (医仙/学者) 专职负责守护全队与自保
-    -- ------------------------------------------------------------------------
-    local isSmallHealer = false
-    if not isPet then
-        local healSpellId = 305
-        local has305 = false
-        local healLv = 1
-        for lv = 20, 1, -1 do
-            if game:HasMagic(healSpellId, lv) then
-                has305 = true
-                healLv = lv
-                break
-            end
-        end
-
-        -- 判定当前角色是否为专职保姆小号:
-        -- 核心铁律: 必须掌握 305 群体治疗术，且不能是大号主力输出(无 803 扫射 / 310 连珠箭)
-        if has305 then
-            local hasCarrySkill = game:HasSkill(803, 1) or game:HasSkill(310, 1) -- 扫射 / 连珠箭
-            if AI.Config.DedicatedGroupHealer then
-                isSmallHealer = true
-            elseif hasCarrySkill then
-                -- 拥有大号主力群攻技能 (如 扫射/连珠箭)，明确是大号，绝不能当作保姆
-                isSmallHealer = false
-            else
-                -- 拥有 305 且无大号主力群攻，确认为 2 小账号专职保姆
-                isSmallHealer = true
-            end
-        end
-
-        if isSmallHealer then
-            -- 前置检测: 医仙自身是否身受【封魔】控制
-            local isSilenced = AI.IsSilenced(false)
-            if isSilenced then
-                if AI.Config.DebugLog then
-                    Info(string.format("[AI群疗协同] 医仙(位号:%d) 身受【封魔】控制无法施法，战术待命蓄力！", myPos))
-                    Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=医仙受封魔控制战术待命",
-                        myPos, myPos))
-                end
-                return true
-            end
-
-            -- 1. 小号医仙互助单体定向急救 (救自己，更救残血/被封魔的队友小号！)
-            -- 扫描医仙小号 (pos: 18 与 19)
-            local targetDangerPos = -1
-            local minDangerRatio = 1.0
-            local dangerName = ""
-
-            for _, checkPos in ipairs({ 18, 19 }) do
-                local cf = game:GetFighter(checkPos)
-                if cf ~= nil and cf.IsDead == 0 and cf.HP > 0 then
-                    local hpRatio = cf.HP / math.max(1, cf.HPMax)
-                    -- 触发条件: 小号生命值 < 60% (残血危急)
-                    if hpRatio < 0.60 and hpRatio < minDangerRatio then
-                        minDangerRatio = hpRatio
-                        targetDangerPos = checkPos
-                        dangerName = game:GetFighterName(checkPos) or "小号"
-                    end
-                end
-            end
-
-            -- 若存在危急小号 (自己或被封魔残血的队友)，立即施放高额单体急救 (强愈术304/急救术313/治疗术303)，一发回血700~900+瞬间拉满！
-            if targetDangerPos >= 0 then
-                for _, emergencyId in ipairs({ 304, 313, 303 }) do
-                    if game:HasMagic(emergencyId, 1) and not game:IsMagicInCD(emergencyId) and game:IsSatisfyMagicConsume(emergencyId, 1) then
-                        local emLv = 1
-                        for lv = 20, 1, -1 do if game:HasMagic(emergencyId, lv) then emLv = lv break end end
-                        local isSelf = (targetDangerPos == myPos)
-                        local actDesc = isSelf and "自身濒死紧急单加" or string.format("跨队友定向急救残血小号(%s,位号:%d)", dangerName, targetDangerPos)
-                        if AI.Config.DebugLog then
-                            Info(string.format("[AI医仙互助] 医仙(位号:%d)发现小号(%s)残血(%.1f%%)，紧急施放单体高额急救 [%d(Lv%d)] 目标位号:%d! (%s)",
-                                myPos, dangerName, minDangerRatio * 100, emergencyId, emLv, targetDangerPos, actDesc))
-                            Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Cast, type=Magic, id=%d, name=单体急救, lv=%d, target=%d, reason=%s",
-                                myPos, emergencyId, emLv, targetDangerPos, actDesc))
-                        end
-                        game:CastMagicToFighter(targetDangerPos, emergencyId, emLv)
-                        return true
-                    end
-                end
-            end
-
-            -- 1.5 医仙开局/首要【隐匿自保】(Invisibility Defense)
-            -- 核心铁律: 优先施放隐匿规避怪物仇恨，杜绝被怪集火打残或暴毙!
-            -- 仅消耗 1 点 SP，隐匿成功后怪物 100% 无法选中该小号，并在后续回合安全回满 SP！
-            if game:HasMagic(212, 1) and not game:IsMagicInCD(212) and game:IsSatisfyMagicConsume(212, 1) then
-                local stealthLv = 1
-                for lv = 20, 1, -1 do if game:HasMagic(212, lv) then stealthLv = lv break end end
-                if AI.Config.DebugLog then
-                    Info(string.format("[AI隐匿自保] 医仙小号(位号:%d) 施放【隐匿 212(Lv%d)】规避怪物集火，隐身自保!", myPos, stealthLv))
-                    Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Cast, type=Magic, id=212, name=隐匿, lv=%d, target=%d, reason=小号隐匿规避集火",
-                        myPos, stealthLv, myPos))
-                end
-                game:CastMagicToFighter(myPos, 212, stealthLv)
-                return true
-            end
-
-            -- 2. 全队血量检测 (< 80% 触发群疗；>= 80% 彻底待命存 SP)
-            if state.lowest_ally_hp_ratio >= 0.80 then
-                -- 【用户核心策略】：全队血量健康时，两小号彻底躺平待命，死死保留满额SP！
-                if AI.Config.DebugLog then
-                    Info(string.format("[AI极致待命] 全队健康(%.1f%% >= 80%%)，小号医仙(位号:%d)原地待命蓄力储备满额SP!",
-                        state.lowest_ally_hp_ratio * 100, myPos))
-                    Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=全队健康极致待命储备SP",
-                        myPos, myPos))
-                end
-                return true
-            else
-                -- 3. 全队掉血低于 80%，进入群疗判定
-                -- 主副医严格分工 + 封魔智能接管：
-                -- 检查另一位小号是否被封魔或残血
-                local peerPos = (myPos == 18 and 19 or 18)
-                local peerFighter = game:GetFighter(peerPos)
-                local isPeerSilenced = false
-                if peerFighter ~= nil and (peerFighter.IsDead ~= 0 or peerFighter.HP <= 0) then
-                    isPeerSilenced = true
-                end
-
-                -- 主医判定: 位号<=18 (自由四号) 为默认主医；若四号阵亡或被封，五号无缝接管成为主医！
-                local isPrimaryDoctor = (myPos <= 18) or isPeerSilenced
-                local isCritical = (state.lowest_ally_hp_ratio < 0.45) -- 极端重创双医齐开
-
-                local canConsume = game:IsSatisfyMagicConsume(305, healLv)
-                local inCD = game:IsMagicInCD(305)
-
-                if isPrimaryDoctor or isCritical then
-                    if not inCD and canConsume then
-                        local roleDesc = isPrimaryDoctor and (isPeerSilenced and "队友受制接管主医群疗" or "主医群疗抬血") or "全队危急双医紧急群疗"
-                        if AI.Config.DebugLog then
-                            Info(string.format("[AI群疗抬血] 队伍血量低于80%%(最低:%.1f%%)，医仙(位号:%d)施放【群体治疗术(Lv%d)】! (%s)",
-                                state.lowest_ally_hp_ratio * 100, myPos, healLv, roleDesc))
-                            Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Cast, type=Magic, id=305, name=群体治疗术, lv=%d, target=%d, reason=%s",
-                                myPos, healLv, myPos, roleDesc))
-                        end
-                        game:CastMagicToFighter(myPos, 305, healLv)
-                        return true
-                    end
-                else
-                    -- 副医(自由五号)：主医健在且队伍未跌破45%，副医继续待命蓄力，保留SP防猝死
-                    if AI.Config.DebugLog then
-                        Info(string.format("[AI副医护航] 队伍掉血(最低:%.1f%%)，由主医负责群疗，副医(位号:%d)坚决待命蓄力保留SP防猝死!",
-                            state.lowest_ally_hp_ratio * 100, myPos))
-                        Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=副医待命保留SP防猝死",
-                            myPos, myPos))
-                    end
-                    return true
-                end
-            end
-            -- 保姆小号坚决不执行普攻，默认战术待命
             return true
         end
     end
 
     -- ------------------------------------------------------------------------
-    -- 核心决策 0.5: 小号濒死残血护航保护 (Critical Doctor Health Protection)
-    -- 场景: 某个小号被打到危急残血 (血量 < 25% 甚至剩个位数血)
-    -- 机制: 若场上有存活未封魔的医仙具备单加能力，且场上怪已被大幅压制(<=2只)，
-    -- 主力输出暂缓秒怪(待命1回合)，给医仙腾出单加抬血窗口，把小号奶满再结束战斗！
+    -- 核心策略定制: 2小账号专职守护模式 (自由四号 Pos 18 / 自由五号 Pos 19)
+    -- 用户核心战略: 这两个小号平时什么都不要做，把蓄力点(SP)死死留着！
+    -- 绝对不放隐匿，绝对不放群疗，绝对不放单加，绝对不普攻！
+    -- 唯一使命: 永远满额蓄力待命，只要检测到队友阵亡，瞬间施放【复活术 306】拉起队友！
     -- ------------------------------------------------------------------------
-    local criticalSmallFighterPos = -1
-    for _, spPos in ipairs({ 18, 19 }) do
-        local sf = game:GetFighter(spPos)
-        if sf ~= nil and sf.IsDead == 0 and sf.HP > 0 then
-            local ratio = sf.HP / math.max(1, sf.HPMax)
-            if ratio < 0.25 then
-                criticalSmallFighterPos = spPos
-                break
-            end
+    local isSmallHealer = false
+    if not isPet then
+        local has306 = game:HasMagic(306, 1)
+        local hasCarrySkill = game:HasSkill(803, 1) or game:HasSkill(310, 1) -- 扫射 / 连珠箭
+        if has306 and not hasCarrySkill then
+            isSmallHealer = true
         end
-    end
 
-    if criticalSmallFighterPos >= 0 and state.enemy_count <= 2 then
-        local canHealDoctor = false
-        for _, docP in ipairs({ 18, 19 }) do
-            local df = game:GetFighter(docP)
-            if df ~= nil and df.IsDead == 0 and df.HP > 0 then
-                if game.IsSatisfyMagicConsume and (game:HasMagic(304, 1) or game:HasMagic(313, 1) or game:HasMagic(305, 1)) then
-                    canHealDoctor = true
-                    break
-                end
-            end
-        end
-        if canHealDoctor then
+        if isSmallHealer then
+            -- 全员存活时，两小号 100% 绝对原地战术待命，死死保留满额 SP！
             if AI.Config.DebugLog then
-                Info(string.format("[AI护航控场] 小号(位号:%d)生命垂危(<25%%)，主力(位号:%d)暂缓秒怪待命1回合，等待医仙抬血!",
-                    criticalSmallFighterPos, myPos))
-                Info(string.format("[BATTLE_EVENT][ACTION] role=%s, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=小号垂危主力控场等待抬血",
-                    isPet and "Pet" or "Player", myPos, criticalSmallFighterPos))
+                Info(string.format("[小号绝对待命存SP] 全员活着，小号医仙(位号:%d)什么都不做，原地待命蓄力，手头死死保留满额SP!", myPos))
+                Info(string.format("[BATTLE_EVENT][ACTION] role=Player, pos=%d, act=Standby, type=None, id=0, name=待命, lv=0, target=%d, reason=小号绝对待命存SP储备复活",
+                    myPos, myPos))
             end
             return true
         end

@@ -1,4 +1,5 @@
 @echo off
-title SMSM2 ¶ÀÁ¢Ñ²ÂßÖĞ¿ØÌ¨
+chcp 65001 >nul
+title å·¡é€»ä¸­æ§å°
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0PatrolDashboard.ps1"
 pause

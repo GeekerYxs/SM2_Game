@@ -1,3 +1,6 @@
 @echo off
-title ¿ªÆôÑ²Âß
+chcp 65001 >nul
+title å¼€å¯å·¡é€»
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0TogglePatrol.ps1" -Action START
+echo.
+pause

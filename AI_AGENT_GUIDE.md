@@ -127,9 +127,12 @@ flowchart TD
 
 ### 1. 架构定位
 * **`src/ai_fight_strategy.lua`**：核心战斗决策状态机。在每个战斗回合，它会评估玩家角色和宠物的当前状态，按策略优先级决定动作（吃药救急 -> 团队复活/治疗 -> 危险单位控制/封印 -> 集火残血/关键怪 -> 群攻清场 -> 普攻/补蓝）。
-* **`src/map_patrol.lua`**：地图巡逻与遇敌挂机引擎。支持两套工作模式：
-  - **`AutoAnchor`（自动锚点模式）**：以初始坐标为中心，自动探测合法可行走网格，在 A-B 两点往返移动触发暗雷。
-  - **`Custom`（自定义路径模式）**：由外部传入自定义坐标点进行航线巡逻。
+* **`src/map_patrol.lua`**：纯净独立地图巡逻与遇敌挂机引擎 (v2.1)。彻底物理级解耦官方 F12 挂机脚本（消灭官方自动普攻劫持 AI 动作问题）。
+  - **`AutoAnchor`（自动锚点模式）**：以初始坐标为中心，自动进行四向避障探测合法可行走网格，在 A-B 两点往返移动触发暗雷。
+  - **`Custom`（自定义两点坐标模式）**：支持用户或 AI 传入 A 点与 B 点共 4 个坐标数字（$Ax, Ay, Bx, By$），实时平滑切换至指定航线。
+  - **队长自省机制 (Leader Introspection)**：战外检测专属职业法术（如火法烈爆术 ID:1504）、战内检测权威主号位 (Pos 17)，杜绝因 `player.Name` 返回 `nil` 引发的队长失效。
+  - **安全防暴毙哨兵 (Safety Sentry)**：战外全员极速补血，生命值 $< 85\%$ 时队长绝对禁止起步撞怪。
+  - 详细审计指南与架构全解请必读：[`AUTO_PATROL_HANDOVER_GUIDE.md`](AUTO_PATROL_HANDOVER_GUIDE.md)。
 * **`src/auto_fight.lua`**：战斗挂机调度主入口。
 
 ### 2. API 字典手册使用规则 (`GameLuaRegister_API_Manual.md`)
@@ -293,17 +296,36 @@ sequenceDiagram
 ```text
 D:\Codes\GG_Antigravity\smsm2-game\
 ├── .gitignore                           # Git 忽略配置（已屏蔽 >100MB MinGW 离线包）
+├── AUTO_PATROL_HANDOVER_GUIDE.md        # [重点] 独立地图巡逻系统交接手册与架构审计指南
 ├── AI_AGENT_GUIDE.md                    # [本文档] AI 开发者与审计人员权威指南
 ├── AI战斗策略引擎与实装报告.md          # 战斗 AI 实操评测与策略说明
 ├── GameLuaRegister_API_Manual.md        # 客户端 C++ 导出 Lua API 权威速查手册
 ├── README.md                            # 项目总体概述与人类开发者入口
-├── sync.ps1                             # 核心脚本：自动同步 src/ 到游戏客户端
+├── sync.ps1                             # 核心脚本：自动同步 src/ 与 tools/ 到游戏客户端
+├── 打开巡逻中控台.bat                   # 根目录一键打开巡逻中控台
+├── 设置巡逻坐标.bat                     # 根目录一键设置自定义巡逻两点坐标 (4参数)
+├── 开启巡逻.bat                         # 根目录一键开启巡逻
+├── 关闭巡逻.bat                         # 根目录一键停止巡逻
+├── 就地重新定点.bat                     # 根目录一键重新定点
 ├── 启动自动答题.bat                     # 根目录一键启动答题守护总开关 (UTF-8)
 │
 ├── src/                                 # 核心业务 Lua 代码（主动维护区）
-│   ├── ai_fight_strategy.lua            # 核心战斗决策大脑（人物与宠物协同）
+│   ├── ai_fight_strategy.lua            # 核心战斗决策大脑（人物与宠物协同、巡逻总线挂载）
 │   ├── auto_fight.lua                   # 挂机遇敌调度主入口
-│   └── map_patrol.lua                   # 地图巡逻引擎（支持 AutoAnchor 与 Custom 模式）
+│   ├── fight_skill_list.lua             # 技能列表与数据表
+│   ├── map_patrol.lua                   # 纯净地图巡逻引擎 v2.1（AutoAnchor / Custom 模式）
+│   └── patrol_config.ini                # 巡逻配置文件模板
+│
+├── tools/                               # 运维管理、遥测中控与逆向辅助工具
+│   ├── PatrolDashboard.ps1              # 巡逻控制与多智能体协同中控台
+│   ├── SetPatrolPoints.ps1              # 自定义巡逻坐标配置脚本
+│   ├── TogglePatrol.ps1                 # 巡逻启停调度脚本
+│   ├── 打开巡逻中控台.bat               # 中控台快捷入口
+│   ├── 设置巡逻坐标.bat                 # 自定义坐标快捷入口
+│   ├── 开启巡逻.bat                     # 开启巡逻快捷入口
+│   ├── 关闭巡逻.bat                     # 关闭巡逻快捷入口
+│   ├── 就地重新定点.bat                 # 就地重新定点快捷入口
+│   └── *.py / *.ps1                     # 战斗遥测监控、数据提取分析工具
 │
 ├── quizbot/                             # 自动化答题子系统
 │   ├── 启动自动答题.bat                 # 答题服务一键入口 (已修复 chcp 65001 编码)
@@ -335,8 +357,7 @@ D:\Codes\GG_Antigravity\smsm2-game\
 │
 ├── official_luas/                       # 官方客户端原始 Lua 脚本（只读逆向参考）
 ├── extracted_luas/                      # 从游戏包体反编译提取的脚本（只读参考）
-├── battle_history/                      # 实战遥测日志数据（JSONL 格式）
-└── tools/                               # 逆向辅助与协议离线验证测试工具箱
+└── battle_history/                      # 实战遥测日志数据（JSONL 格式）
 ```
 
 ---
