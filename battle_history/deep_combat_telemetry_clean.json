@@ -1,0 +1,76 @@
+{
+  "timestamp": "2026-10-03 22:58:36",
+  "total_battles": 667,
+  "avg_duration": 23.21,
+  "max_duration": 63.0,
+  "min_duration": 12.0,
+  "avg_enemies": 4.2,
+  "duration_distribution": {
+    "<10s": 0,
+    "10-20s": 235,
+    "20-30s": 308,
+    ">30s": 124
+  },
+  "total_ceasefires": 44,
+  "total_revives": 1,
+  "real_anomalies_count": 1294,
+  "actions_by_fighter": {
+    "伏地魔1 (Player, Lv70 队长猎人)": {
+      "Cast:扫射 (ID:803)": 2349,
+      "普通攻击 (NormalAttack)": 1854,
+      "Cast:连珠箭/心灵震撼 (ID:310)": 54,
+      "战术待命 (Standby)": 25,
+      "Cast:精准射击/回复术 (ID:309)": 16,
+      "Cast:群体治疗术 (ID:305)": 13,
+      "Cast:隐匿 (ID:212)": 12
+    },
+    "伏地魔2 (Player, Lv70 猎人大号)": {
+      "Cast:扫射 (ID:803)": 2464,
+      "普通攻击 (NormalAttack)": 1333,
+      "Cast:群体治疗术 (ID:305)": 138,
+      "Cast:魔法盾 (ID:355)": 110,
+      "Cast:隐匿 (ID:212)": 65,
+      "Cast:精准射击/回复术 (ID:309)": 18,
+      "战术待命 (Standby)": 11,
+      "Cast:保护盾/痛击 (ID:307)": 4
+    },
+    "伏地魔3 (Player, Lv70 猎人大号)": {
+      "普通攻击 (NormalAttack)": 1396,
+      "Cast:扫射 (ID:803)": 1032,
+      "Cast:隐匿 (ID:212)": 726,
+      "战术待命 (Standby)": 627,
+      "Cast:群体治疗术 (ID:305)": 207,
+      "Cast:强愈术 (ID:304)": 57,
+      "Cast:能量射击/神佑 (ID:308)": 4,
+      "Cast:复活术 (ID:306)": 1
+    },
+    "快跑葫芦娃 (Pet, 辅助随宠)": {
+      "战术待命 (Standby)": 3123,
+      "Cast:烈焰爆发 (ID:1504)": 2055,
+      "Cast:烈焰 (ID:1503)": 30
+    },
+    "自由五号 (Player, Lv48 医仙小号)": {
+      "Cast:群体治疗术 (ID:305)": 1457,
+      "普通攻击 (NormalAttack)": 1164,
+      "Cast:扫射 (ID:803)": 823,
+      "Cast:保护盾/痛击 (ID:307)": 427,
+      "Cast:隐匿 (ID:212)": 80,
+      "Cast:复活术 (ID:306)": 19,
+      "战术待命 (Standby)": 11
+    },
+    "自由四号 (Player, Lv48 医仙小号)": {
+      "Cast:群体治疗术 (ID:305)": 728,
+      "战术待命 (Standby)": 610,
+      "Cast:魔法盾 (ID:355)": 460,
+      "Cast:隐匿 (ID:212)": 403,
+      "Cast:扫射 (ID:803)": 238,
+      "普通攻击 (NormalAttack)": 130,
+      "Cast:强愈术 (ID:304)": 55
+    },
+    "魔力布老虎 (Pet, 主力火宠)": {
+      "Cast:烈焰爆发 (ID:1504)": 7768,
+      "战术待命 (Standby)": 1885,
+      "Cast:烈焰 (ID:1503)": 55
+    }
+  }
+}

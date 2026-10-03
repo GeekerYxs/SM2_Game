@@ -62,6 +62,8 @@
 ---
 
 ## 核心文档索引
+- **[`UNIVERSAL_COMBAT_AI_ARCHITECTURE_SPEC.md`](UNIVERSAL_COMBAT_AI_ARCHITECTURE_SPEC.md)**：【必读】全场景通用战斗 AI 架构规范与客户端逆向工程报告（涵盖全职业/单人/小队/5人遥测审计与隐匿死循环解决证据）
+- **[`COMBAT_AI_STRATEGY_GUIDE.md`](COMBAT_AI_STRATEGY_GUIDE.md)**：战斗 AI 策略与挂机协同系统交接指南
 - **[`AUTO_PATROL_HANDOVER_GUIDE.md`](AUTO_PATROL_HANDOVER_GUIDE.md)**：独立地图巡逻系统交接手册与架构审计指南（新 Agent 必读）
 - **[`AI_AGENT_GUIDE.md`](AI_AGENT_GUIDE.md)**：AI 协同开发与代码审计权威指南
 - **[`GameLuaRegister_API_Manual.md`](GameLuaRegister_API_Manual.md)**：客户端 C++ 导出原生 API 手册

@@ -1,0 +1,115 @@
+{
+  "timestamp": "2026-10-03 22:55:39",
+  "total_battles": 661,
+  "avg_duration": 23.232945099848713,
+  "max_duration": 63.0,
+  "min_duration": 12.0,
+  "avg_enemies": 4.199697428139183,
+  "duration_distribution": {
+    "<10s": 0,
+    "10-20s": 232,
+    "20-30s": 305,
+    ">30s": 124
+  },
+  "total_ceasefires": 44,
+  "total_revives": 1,
+  "anomalies_count": 2867,
+  "actions_summary": {
+    "Player (Pos 17)": {
+      "NormalAttack:普通攻击": 183,
+      "Cast:扫射": 2327,
+      "Cast:精准射击": 16,
+      "NormalAttack:鏅�氭敾鍑�": 1662,
+      "Cast:连珠箭": 54,
+      "Standby:寰呭懡": 18,
+      "Standby:待命": 7,
+      "Cast:闅愬尶": 12,
+      "Cast:缇や綋娌荤枟鏈�": 13
+    },
+    "Pet (Pos 12)": {
+      "Cast:烈焰爆发": 281,
+      "Cast:烈焰": 26,
+      "Cast:鐑堢劙鐖嗗彂": 2552,
+      "Standby:寰呭懡": 28,
+      "Standby:待命": 5
+    },
+    "Player (Pos 15)": {
+      "NormalAttack:普通攻击": 156,
+      "Cast:扫射": 2445,
+      "Cast:精准射击": 18,
+      "NormalAttack:鏅�氭敾鍑�": 1166,
+      "Cast:痛击": 4,
+      "Standby:寰呭懡": 5,
+      "Standby:待命": 6,
+      "Cast:榄旀硶鐩�": 110,
+      "Cast:缇や綋娌荤枟鏈�": 138,
+      "Cast:闅愬尶": 65
+    },
+    "Pet (Pos 10)": {
+      "Cast:烈焰爆发": 394,
+      "Cast:烈焰": 29,
+      "Cast:鐑堢劙鐖嗗彂": 3049,
+      "Standby:寰呭懡": 255,
+      "Standby:待命": 4
+    },
+    "Player (Pos 19)": {
+      "NormalAttack:鏅�氭敾鍑�": 130,
+      "Cast:扫射": 238,
+      "Cast:闅愬尶": 335,
+      "Cast:缇や綋娌荤枟鏈�": 604,
+      "Standby:寰呭懡": 584,
+      "Cast:鍗曚綋鎬ユ晳": 37,
+      "Cast:隐匿": 68,
+      "Cast:单体急救": 18,
+      "Cast:魔法盾": 67,
+      "Cast:群体治疗术": 124,
+      "Cast:榄旀硶鐩�": 393
+    },
+    "Pet (Pos 14)": {
+      "Cast:鐑堢劙鐖嗗彂": 331,
+      "Standby:寰呭懡": 1575,
+      "Standby:待命": 221
+    },
+    "Player (Pos 18)": {
+      "NormalAttack:普通攻击": 131,
+      "Cast:扫射": 1032,
+      "Cast:能量射击": 4,
+      "NormalAttack:鏅�氭敾鍑�": 1265,
+      "Cast:闅愬尶": 550,
+      "Cast:缇や綋娌荤枟鏈�": 207,
+      "Standby:寰呭懡": 597,
+      "Cast:鍗曚綋鎬ユ晳": 38,
+      "Cast:隐匿": 176,
+      "Cast:单体急救": 19,
+      "Standby:待命": 5,
+      "Cast:复活术": 1
+    },
+    "Pet (Pos 13)": {
+      "Cast:烈焰爆发": 146,
+      "Cast:烈焰": 30,
+      "Cast:鐑堢劙鐖嗗彂": 1578,
+      "Standby:寰呭懡": 1119,
+      "Standby:待命": 166
+    },
+    "Player (Pos 16)": {
+      "NormalAttack:鏅�氭敾鍑�": 1004,
+      "Cast:扫射": 809,
+      "Standby:寰呭懡": 5,
+      "NormalAttack:普通攻击": 141,
+      "Standby:待命": 6,
+      "Cast:群体治疗术": 123,
+      "Cast:保护盾": 66,
+      "Cast:隐匿": 5,
+      "Cast:缇や綋娌荤枟鏈�": 1334,
+      "Cast:淇濇姢鐩�": 361,
+      "Cast:闅愬尶": 75,
+      "Cast:澶嶆椿鏈�": 19
+    },
+    "Pet (Pos 11)": {
+      "Cast:鐑堢劙鐖嗗彂": 1251,
+      "Standby:寰呭懡": 1431,
+      "Cast:烈焰爆发": 167,
+      "Standby:待命": 162
+    }
+  }
+}
