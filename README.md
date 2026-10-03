@@ -15,10 +15,12 @@
 - **`打开巡逻中控台.bat` / `设置巡逻坐标.bat` / `开启巡逻.bat` / `关闭巡逻.bat` / `就地重新定点.bat`**: 根目录与工具目录一键批处理。
 - **[`AUTO_PATROL_HANDOVER_GUIDE.md`](AUTO_PATROL_HANDOVER_GUIDE.md)**: **【必读】独立地图巡逻系统交接手册与架构审计指南**（包含深度排障踩坑经验、数据分析与开发规约）。
 
-### 2. 战斗 AI 策略引擎 (`src/` & `tools/`)
-基于游戏内置 Lua 虚拟机的全自动战斗策略与状态机：
-- **`src/ai_fight_strategy.lua`**: 核心战斗决策逻辑（技能优先释放、全员治疗抬血、急救吃药、逃跑保护、巡逻总线集成等）。
-- **`src/auto_fight.lua`**: 自动遇敌与战斗托管入口。
+### 2. 战斗 AI 策略引擎 (`src/` & `tools/`) [★ 核心业务]
+基于游戏内置 Lua 虚拟机的多智能体协同战斗状态机：
+- **[`COMBAT_AI_STRATEGY_GUIDE.md`](COMBAT_AI_STRATEGY_GUIDE.md)**: **【必读】战斗 AI 策略与挂机协同系统交接指南**（详尽阐述 3带2 阵容画像、死人全员停火绝对复活协议、小号彻底存 SP 待命策略、黑板协议与调试排障）。
+- **`src/ai_fight_strategy.lua`**: 核心战斗决策逻辑（动态能力自省、全员停火抢救、小号极致存SP待命、分布式黑板通信等）。
+- **`src/auto_fight.lua`**: 自动遇敌与战斗托管调度主入口。
+- **`sync.ps1`**: 核心热更新同步工具（一键全盘扫描并同步至所有游戏安装目录）。
 - **`tools/`**: 战斗数据捕获、技能与数据表逆向提取工具。
 - **`battle_history/`**: 历史实战战绩与结算样本库（`battle_records.jsonl`）。
 - **`extracted_luas/` & `official_luas/`**: 从客户端解出的官方脚本源码与参考实现。
